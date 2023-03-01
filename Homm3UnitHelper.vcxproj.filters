@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Pliki źródłowe">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Pliki zasobów">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Pliki źródłowe\ImGui">
+      <UniqueIdentifier>{9c6e1778-e164-4224-b158-afc83513588e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\ImGui">
+      <UniqueIdentifier>{380a0579-0e34-4343-9d5b-d749ebcfb85d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\SDK\ImGuiDocking\imgui.cpp">
+      <Filter>Pliki źródłowe\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\SDK\ImGuiDocking\backends\imgui_impl_dx9.cpp">
+      <Filter>Pliki źródłowe\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\SDK\ImGuiDocking\imgui_draw.cpp">
+      <Filter>Pliki źródłowe\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\SDK\ImGuiDocking\backends\imgui_impl_win32.cpp">
+      <Filter>Pliki źródłowe\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\SDK\ImGuiDocking\imgui_tables.cpp">
+      <Filter>Pliki źródłowe\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\SDK\ImGuiDocking\imgui_widgets.cpp">
+      <Filter>Pliki źródłowe\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MemoryReader.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Unit.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataReader.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\SDK\ImGuiDocking\imgui_internal.h">
+      <Filter>Pliki nagłówkowe\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\SDK\ImGuiDocking\imconfig.h">
+      <Filter>Pliki nagłówkowe\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\SDK\ImGuiDocking\imgui.h">
+      <Filter>Pliki nagłówkowe\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\SDK\ImGuiDocking\backends\imgui_impl_dx9.h">
+      <Filter>Pliki nagłówkowe\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\SDK\ImGuiDocking\backends\imgui_impl_win32.h">
+      <Filter>Pliki nagłówkowe\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\SDK\ImGuiDocking\imstb_textedit.h">
+      <Filter>Pliki nagłówkowe\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\SDK\ImGuiDocking\imstb_truetype.h">
+      <Filter>Pliki nagłówkowe\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\SDK\ImGuiDocking\imstb_rectpack.h">
+      <Filter>Pliki nagłówkowe\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MemoryReader.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Unit.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DataReader.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Homm3UnitHelper.rc">
+      <Filter>Pliki zasobów</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
