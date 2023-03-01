@@ -12,7 +12,7 @@ It aims to lower the skill floor for new players.
 - [ ] Displaying structure info
 - [ ] Read unit stats directly from game data
 
-## Usage
+## Usage:
 1. Run the game.
 2. Click attach in program menu.
 3. While in adventure map click with right mouse button on unit to display its stats.
@@ -24,5 +24,5 @@ Program attaches to the game process and reads its memory.
 - [x] HotA
 - [ ] Other
 
-## Requirements
+## Requirements:
 May require [vcredist](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist) x86 (or both x86 and x64) to launch.
