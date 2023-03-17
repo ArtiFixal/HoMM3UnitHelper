@@ -59,28 +59,33 @@ void showOverlay(MemoryReader &mr,overlayStyle style)
 	wc.ViewportFlagsOverrideSet = ImGuiViewportFlags_OwnedByApp;
 
 	ImGui::SetNextWindowClass(&wc);
-	Unit u = mr.getUnit();
 	if (ImGui::Begin("HoMM3 Unit Helper Overlay", NULL, overlayFlags))
-		if (u.isNull())
+	{
+		Unit u = mr.getUnit();
+		if(mr.pollGamePause())
+			ImGui::Text("Game paused.");
+		else if (u.isNull())
 			ImGui::Text("Nothing selected");
 		else
 		{
-			ImGui::Text("%s",u.getName().c_str());
+			ImGui::Text("%s", u.getName().c_str());
 			ImGui::Text("Faction: %s", u.getFactionString().c_str());
 			ImGui::Text("Unit Level: %s", u.getLevelString().c_str());
 			ImGui::Text("Attack: %i", u.getAttack());
 			ImGui::Text("Defense: %i", u.getDefense());
-			if(u.isRanged())
-			ImGui::Text("Ammo: %i", u.getAmmo());
-			ImGui::Text("Damage: %i-%i", u.getMinDmg(),u.getMaxDmg());
+			if (u.isRanged())
+				ImGui::Text("Ammo: %i", u.getAmmo());
+			ImGui::Text("Damage: %i-%i", u.getMinDmg(), u.getMaxDmg());
 			ImGui::Text("Health: %i", u.getHP());
 			ImGui::Text("Speed: %i", u.getSpeed());
 			if (!u.isNeutral())
 			{
-				ImGui::Text("If on native terrain: %s",u.getFactionTerrain().c_str());
+				ImGui::Text("If on native terrain: %s", u.getFactionTerrain().c_str());
 				ImGui::Text("+1 to attack, defense and speed");
 			}
 		}
+	}
+		
 
 	// Each Viewport has its own HWND so we will use it
 	HWND win = (HWND)ImGui::GetWindowViewport()->PlatformHandleRaw;

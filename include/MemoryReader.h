@@ -12,10 +12,15 @@ using namespace std;
 #define MONSTER_ID_ADDRESS 0x00199AD0
 
 // If town is opened =1, if heroes are trading >40
-#define IS_TOWN_OPENED 0x00199AD4
+//#define IS_TOWN_OPENED 0x00199AD4
 
 // Text displayed at the bottom of the map
 #define BOTTOM_BAR_TEXT 0x00697428
+
+// Describes if game is paused. 
+// 1 - when paused (ex. game not started)
+// 0 - otherwise (only in adventure map)
+#define IS_GAME_PAUSED 0x00699668
 
 /**
 * Process memory I/O.
@@ -107,9 +112,30 @@ public:
 
 	/**
 	* Clears MemoryReader object variables, hooks and handlers.
+	* Allowing to attach properly once again.
 	*/
 	void clearMemoryReader();
+
+	/**
+	* Reset DataReader and reload files.
+	* 
+	* @return Succes of reload.
+	*/
 	bool resetDataReader();
+
+	/**
+	* Polls game status reading it from memory.
+	* 
+	* @return Game pause status.
+	*/
+	bool pollGamePause();
+
+	/**
+	* Describes if game is paused.
+	* 
+	* @return True if game is paused or not started yet, false otherwise.
+	*/
+	bool isGamePaused();
 	bool isGameStillRunning();
 
 private:
@@ -117,6 +143,7 @@ private:
 	DWORD processID;
 	HANDLE processHandler;
 	DataReader reader;
+	bool gamePaused;
 	// Hook processing mouse events
 	static HHOOK mouseHook;
 

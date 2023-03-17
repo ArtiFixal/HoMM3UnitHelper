@@ -30,6 +30,12 @@ public:
 	Unit();
 	Unit(std::fstream& f);
 
+	/**
+	* Reads unit data from a given file.
+	*
+	* @param f File from whose to read.
+	* @return Success of read.
+	*/
 	bool readBinData(std::fstream& f);
 	bool isRanged();
 	bool isNull();
@@ -48,14 +54,18 @@ public:
 	std::string getFactionTerrain();
 
 	/**
-	* @param whichFaction Faction enum.
+	* Converts Faction enum into string containing its name.
+	* 
+	* @param whichFaction Faction enum to convert.
 	* @return Name of given faction.
 	*/
 	static std::string getFactionString(Faction whichFaction);
 
 	/**
+	* Based on faction enum returns native terrain name of that faction.
+	* 
 	* @param whichFaction Faction enum.
-	* @param isHota HotA mod makes changes in the gameplay
+	* @param isHota HotA mod makes some changes in the gameplay.
 	* @return Native terrain of given faction.
 	*/
 	static std::string getFactionTerrain(Faction whichFaction,bool isHota = true);

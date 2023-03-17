@@ -10,6 +10,7 @@ MemoryReader::MemoryReader()
 	processHandler=NULL;
 	window = NULL;
 	hookThisPtr = this;
+	gamePaused = true;
 }
 
 MemoryReader::~MemoryReader()
@@ -42,6 +43,7 @@ bool MemoryReader::attachToProcess()
 	CloseHandle(snapshotHandler);
 	if (this->processID == NULL)
 		return false;
+	// Give minimal access rights
 	processHandler=OpenProcess(PROCESS_VM_READ|PROCESS_QUERY_LIMITED_INFORMATION, false, processID);
 	return processHandler != NULL&&processHandler!=INVALID_HANDLE_VALUE;
 }
@@ -86,6 +88,7 @@ string MemoryReader::readString(int stringStartAddress)
 	if (l == 0)
 		return "";
 	string s="";
+	// Preallocate string to avoid its resizing and moving it multiple times in loop.
 	s.get_allocator().allocate(l+1);
 	char c;
 	for (size_t i = 0; i < l; i++)
@@ -128,12 +131,11 @@ LRESULT CALLBACK MemoryReader::staticProcessMouseHook(int nCode, WPARAM wParam, 
 				// Process clicks only inside our game window
 				if(hookThisPtr->window==GetForegroundWindow())
 				{
-					int mapStatus= hookThisPtr->readMemory<int>(IS_TOWN_OPENED);
 					// Prevent from random monsters being read if not on adventure map (ex. in town)
-					if (mapStatus != 1&&mapStatus>0x6A)
+					if (!hookThisPtr->gamePaused)
 					{
 						// Only monster string contain '-' char
-						if (hookThisPtr->readString(BOTTOM_BAR_TEXT).find("-")!=string::npos)
+						if (hookThisPtr->readString(BOTTOM_BAR_TEXT).find("-") != string::npos)
 						{
 							int monster = hookThisPtr->readMemory<int>(MONSTER_ID_ADDRESS);
 							// Prevent reading file twice for the same unit
@@ -198,6 +200,17 @@ void MemoryReader::clearMemoryReader()
 bool MemoryReader::resetDataReader()
 {
 	return reader.reloadFile();
+}
+
+bool MemoryReader::pollGamePause()
+{
+	gamePaused = readMemory<int>(IS_GAME_PAUSED);
+	return gamePaused;
+}
+
+bool MemoryReader::isGamePaused()
+{
+	return gamePaused;
 }
 
 bool MemoryReader::isGameStillRunning()

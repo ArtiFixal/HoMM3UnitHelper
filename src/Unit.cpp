@@ -18,12 +18,6 @@ Unit::Unit(std::fstream& f)
 	readBinData(f); 
 }
 
-/**
-* Reads unit data from a given file.
-* 
-* @param f File from whose to read.
-* @return 
-*/
 bool Unit::readBinData(std::fstream& f)
 {
 	f.read(reinterpret_cast<char*>(&unitID), 1);
@@ -90,12 +84,6 @@ std::string Unit::getFactionTerrain()
 	return getFactionTerrain(unitFact);
 }
 
-/**
-* Converts Faction enum into a string.
-* 
-* @param frac Enum to convert.
-* @return String
-*/
 std::string Unit::getFactionString(Faction whichFaction)
 {
 	switch (whichFaction)
