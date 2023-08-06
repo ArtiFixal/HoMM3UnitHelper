@@ -22,7 +22,8 @@
 
 // File containing unit data doesn't exist
 #define ERROR_UNIT_DATA_FILE_NOT_FOUND 536870915
-#define UNIT_DATA_FILE_URL_CHAR "https://github.com/ArtiFixal/HoMM3UnitHelper/raw/main/data/unitData.hdat"
+
+// URL to file containing data about units
 #define UNIT_DATA_FILE_URL L"https://github.com/ArtiFixal/HoMM3UnitHelper/raw/main/data/unitData.hdat"
 
 using namespace std;
@@ -252,7 +253,7 @@ int main()
 			else
 			{
 				lastError = ERROR_UNIT_DATA_FILE_NOT_FOUND;
-				dataFileExists=URLDownloadToFile(NULL,UNIT_DATA_FILE_URL,wstring(DataReader::FILE_WITH_DATA.begin(),DataReader::DataReader::FILE_WITH_DATA.end()).c_str(),0,NULL)==S_OK;
+				dataFileExists=URLDownloadToFileA(NULL,UNIT_DATA_FILE_URL,DataReader::FILE_WITH_DATA.c_str(),0,NULL)==S_OK;
 				mr.resetDataReader();
 			}
 		}
@@ -279,9 +280,9 @@ int main()
 					{
 						ImGui::TextColored(errColor, "Tried to download unit data file but failed.");
 						ImGui::TextColored(errColor,"Manually download file from:");
-						ImGui::TextColored(errColor,"%s", UNIT_DATA_FILE_URL_CHAR);
+						ImGui::TextColored(errColor,"%s", UNIT_DATA_FILE_URL);
 						if (ImGui::Button("Open link"))
-							system(string("start ").append(UNIT_DATA_FILE_URL_CHAR).c_str());
+							system(string("start ").append(UNIT_DATA_FILE_URL).c_str());
 						ImGui::TextColored(errColor, "And drop it inside this program .exe directory.");
 					}
 					else
