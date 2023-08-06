@@ -129,10 +129,10 @@ int main()
 	*/
 
 	// Create application window
-	WNDCLASSEX wc = { sizeof(wc),CS_CLASSDC, WndProc,0L,0L,GetModuleHandle(NULL),NULL,NULL,NULL ,NULL ,L"HoMM3 Unit Helper"};//LoadIcon(IDI_ICON1)};
+	WNDCLASSEXW wc = {sizeof(wc),CS_CLASSDC,WndProc,0L,0L,GetModuleHandle(NULL),NULL,NULL,NULL,NULL,L"HoMM3 Unit Helper"};
 	wc.hIcon=LoadIcon(wc.hInstance, MAKEINTRESOURCE(IDI_ICON1));
-	RegisterClassEx(&wc);
-	HWND appWindow = ::CreateWindowW(wc.lpszClassName, L"HoMM3 Unit Helper", WS_OVERLAPPEDWINDOW, 100, 100, 640, 340, NULL, NULL, wc.hInstance, NULL);
+	RegisterClassExW(&wc);
+	HWND appWindow = ::CreateWindowW(wc.lpszClassName, wc.lpszClassName, WS_OVERLAPPEDWINDOW, 100, 100, 640, 340, NULL, NULL, wc.hInstance, NULL);
 
 	// Initialize Direct3D
 	if (!CreateDeviceD3D(appWindow))
