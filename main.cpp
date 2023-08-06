@@ -7,9 +7,6 @@
 #include <filesystem>
 #include "resource.h"
 
-// Set entry point to mainCRT
-#pragma comment(linker, "/ENTRY:mainCRTStartup")
-
 /* 
 * App defined error codes:
 * 
