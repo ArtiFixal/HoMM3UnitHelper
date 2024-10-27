@@ -1,6 +1,8 @@
 #pragma once
 #include <windows.h>
 #include <tlhelp32.h>
+#include <filesystem>
+#include <memory>
 #include "DataReader.h"
 #include "Unit.h"
 #include "TcharMacros.h"
@@ -31,8 +33,6 @@ class MemoryReader
 public:
 	// Last clicked unit
 	Unit selectedUnit;
-
-	TCHAR* exePath;
 
 	MemoryReader();
 	~MemoryReader();
@@ -73,9 +73,9 @@ public:
 	* @param unitID Which unit data we want to read.
 	* @return Success of the read.
 	*/
-	bool readUnit(H3Unit::byte unitID);
+	bool readUnit(int unitID);
 
-	TCHAR* getExePath();
+	std::filesystem::path getExePath();
 
 	DWORD getProcessID();
 
@@ -121,13 +121,6 @@ public:
 	void clearMemoryReader();
 
 	/**
-	* Reset DataReader and reload files.
-	* 
-	* @return Succes of reload.
-	*/
-	bool resetDataReader();
-
-	/**
 	* Polls game status reading it from memory.
 	* 
 	* @return Game pause status.
@@ -146,7 +139,7 @@ private:
 	// Game PID
 	DWORD processID;
 	HANDLE processHandle;
-	DataReader reader;
+	std::unique_ptr<DataReader> reader;
 	bool gamePaused;
 
 	// Hook processing mouse events
@@ -157,6 +150,9 @@ private:
 
 	// Game window
 	HWND window;
+
+	// Game directory
+	std::filesystem::path exeDir;
 };
 
 template<typename T>

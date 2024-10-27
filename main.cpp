@@ -5,7 +5,6 @@
 #include <d3d9.h>
 #include "MemoryReader.h"
 #include <filesystem>
-#include <urlmon.h>
 #include "resource.h"
 
 /* 
@@ -207,39 +206,26 @@ int main()
 		}
 		if (ImGui::Button("Attach"))
 		{
-			if (dataFileExists=filesystem::exists(DataReader::FILE_WITH_DATA))
+			if (attached = mr.attachToProcess())
 			{
-				if (attached = mr.attachToProcess())
+				if (!initOverlay)
 				{
-					if (!initOverlay)
+					if (mr.findWindow())
 					{
-						if (mr.findWindow())
+						if (mr.setMouseHook())
 						{
-							if (mr.setMouseHook())
-							{
-								lastError = NULL;
-								initOverlay = true;
-							}
-							else
-								lastError = ERROR_OVERLAY_MOUSE_HOOK_INIT;
+							lastError = NULL;
+							initOverlay = true;
 						}
 						else
-							lastError = ERROR_OVERLAY_INIT;
+							lastError = ERROR_OVERLAY_MOUSE_HOOK_INIT;
 					}
+					else
+						lastError = ERROR_OVERLAY_INIT;
 				}
-				else
-					lastError = GetLastError();
 			}
 			else
-			{
-				lastError = ERROR_UNIT_DATA_FILE_NOT_FOUND;
-				TCHAR* destination=strToTchar(DataReader::FILE_WITH_DATA);
-				dataFileExists=URLDownloadToFile(NULL,TEXT(UNIT_DATA_FILE_URL),destination,0,NULL)==S_OK;
-				mr.resetDataReader();
-				#ifdef UNICODE
-					delete[] destination;
-				#endif
-			}
+				lastError = GetLastError();
 		}
 		if (lastError != NULL)
 		{

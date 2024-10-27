@@ -1,48 +1,39 @@
 #pragma once
 #include <string>
-#include <fstream>
-
-namespace H3Unit {
-	typedef unsigned char byte;
-	typedef unsigned short ushort;
-}
-
-using namespace H3Unit;
-
+#include "GameObject.h"
 /**
-* HoMM unit town.
+* @brief HoMM unit town.
 */
 enum class Faction: int{
-	Neutral,Castle,Rampart,Tower,Inferno,Necropolis,Dungeon,Stronghold,Fortress,Conflux,Cove
-};
-
-enum class Aligment: int{
-        Good,Neutral,Evil
+	Castle,Rampart,Tower,Inferno,Necropolis,Dungeon,Stronghold,Fortress,Conflux,Cove,
+	// 0xFFFFFFFF in file
+	Neutral=-1
 };
 
 /**
-* Stores data about HoMM unit.
+ * @brief Faction aligment.
+ */
+enum class Aligment: int{
+	Good,Neutral,Evil
+};
+
+/**
+* @brief Stores data about HoMM unit.
 */
-class Unit
+class Unit: public GameObject
 {
 public:
 	std::string name;
 	Faction unitFaction;
 
 	Unit();
-	Unit(std::fstream& f);
+	Unit(ID unitID, std::string name, Faction faction, int level, int hp, int speed, int attack, int defense, int minDmg, int maxDmg, int ammo, ID upgradeID);
 
-	/**
-	* Reads unit data from a given file.
-	*
-	* @param f File from whose to read.
-	* @return Success of read.
-	*/
-	bool readBinData(std::fstream& f);
+	bool isUpgradeable();
 	bool isRanged();
 	bool isNull();
 	bool isNeutral();
-	H3Unit::byte getUnitID();
+	ID getUnitID();
 	std::string getName();
 
 	/**
@@ -73,13 +64,18 @@ public:
 	static std::string getFactionTerrain(Faction whichFaction,bool isHota = true);
 
 	/**
+	* @return Unit faction ID.
+	*/
+	int getFactionID();
+
+	/**
 	* Transforms given faction enum into its ID value.
 	*
 	* @param whichFaction
 	* @return Value of an enum.
 	*/
-	static H3Unit::byte getFactionID(Faction whichFaction);
-	H3Unit::byte getLevel();
+	static int getFactionID(Faction whichFaction);
+	int getLevel();
 
 	/**
 	* Converts unit level into string. Where number of '+' (plus sign) represents how many
@@ -89,16 +85,17 @@ public:
 	*/
 	std::string getLevelString();
 
-	H3Unit::byte getAttack();
-	H3Unit::byte getDefense();
-	H3Unit::byte getMinDmg();
-	H3Unit::byte getMaxDmg();
-	H3Unit::byte getAmmo();
-	H3Unit::ushort getHP();
-	H3Unit::byte getSpeed();
+	int getAttack();
+	int getDefense();
+	int getMinDmg();
+	int getMaxDmg();
+	int getAmmo();
+	int getHP();
+	int getSpeed();
+	ID getUpgradeID();
 
 private:
-	H3Unit::byte unitID;
+	ID unitID;
 
 	/**
 	* Specifies level of an unit, where:
@@ -109,5 +106,7 @@ private:
 	int level;
 	int attack, defense, minDmg, maxDmg, ammo, speed;
 	int hp;
+
+	ID upgradeID;
 };
 

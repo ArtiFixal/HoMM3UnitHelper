@@ -11,41 +11,28 @@ Unit::Unit() {
 	ammo = 0;
 	speed = 0;
 	hp = 0;
+	upgradeID = 0;
 }
 
-Unit::Unit(std::fstream& f)
+Unit::Unit(ID unitID, std::string name, Faction faction, int level, int hp, int speed, int attack, int defense, int minDmg, int maxDmg, int ammo, ID upgradeID)
 {
-	readBinData(f); 
+	this->unitID = unitID;
+	this->name=name;
+	this->unitFaction = faction;
+	this->level = level;
+	this->hp = hp;
+	this->speed = speed;
+	this->attack = attack;
+	this->defense = defense;
+	this->minDmg = minDmg;
+	this->maxDmg = maxDmg;
+	this->ammo = ammo;
+	this->upgradeID=upgradeID;
 }
 
-bool Unit::readBinData(std::fstream& f)
+bool Unit::isUpgradeable()
 {
-	f.read(reinterpret_cast<char*>(&unitID), 1);
-	// Read string size first
-	H3Unit::byte stringSize;
-	f.read(reinterpret_cast<char*>(&stringSize), 1);
-	char* buf = new char[stringSize + 1];
-	f.read(buf,stringSize);
-	// terminate string
-	buf[stringSize] = '\0';
-	name = std::string(buf);
-	delete[] buf;
-	H3Unit::byte town;
-	f.read(reinterpret_cast<char*>(&town), 1);
-	// cast FactionID to Faction Enum if valid
-	if (town <= 10)
-		unitFaction = static_cast<Faction>(town);
-	else
-		unitFaction = Faction::Neutral;
-	f.read(reinterpret_cast<char*>(&level), 1);
-	f.read(reinterpret_cast<char*>(&attack), 1);
-	f.read(reinterpret_cast<char*>(&ammo), 1);
-	f.read(reinterpret_cast<char*>(&defense), 1);
-	f.read(reinterpret_cast<char*>(&minDmg), 1);
-	f.read(reinterpret_cast<char*>(&maxDmg), 1);
-	f.read(reinterpret_cast<char*>(&hp), sizeof(ushort));
-	f.read(reinterpret_cast<char*>(&speed), 1);
-	return f.good();
+    return upgradeID!=-1;
 }
 
 bool Unit::isRanged()
@@ -55,8 +42,8 @@ bool Unit::isRanged()
 
 bool Unit::isNull()
 {
-	// Valid unit can't have 0 HP
-	return hp == 0;
+	// Valid unit can't have <= 0 HP
+	return hp <= 0;
 }
 
 bool Unit::isNeutral()
@@ -64,7 +51,7 @@ bool Unit::isNeutral()
 	return unitFaction==Faction::Neutral;
 }
 
-H3Unit::byte Unit::getUnitID()
+ID Unit::getUnitID()
 {
 	return unitID;
 }
@@ -144,12 +131,16 @@ std::string Unit::getFactionTerrain(Faction whichFaction,bool isHota)
 	}
 }
 
-H3Unit::byte Unit::getFactionID(Faction whichFaction)
+int Unit::getFactionID(){
+	return getFactionID(unitFaction);
+}
+
+int Unit::getFactionID(Faction whichFaction)
 {
 	return static_cast<std::underlying_type<Faction>::type>(whichFaction);
 }
 
-H3Unit::byte Unit::getLevel()
+int Unit::getLevel()
 {
 	return level;
 }
@@ -164,37 +155,42 @@ std::string Unit::getLevelString()
 		return std::to_string(level);
 }
 
-H3Unit::byte Unit::getAttack()
+int Unit::getAttack()
 {
 	return attack;
 }
 
-H3Unit::byte Unit::getAmmo()
+int Unit::getAmmo()
 {
 	return ammo;
 }
 
-H3Unit::byte Unit::getDefense()
+int Unit::getDefense()
 {
 	return defense;
 }
 
-H3Unit::byte Unit::getMinDmg()
+int Unit::getMinDmg()
 {
 	return minDmg;
 }
 
-H3Unit::byte Unit::getMaxDmg()
+int Unit::getMaxDmg()
 {
 	return maxDmg;
 }
 
-ushort Unit::getHP()
+int Unit::getHP()
 {
 	return hp;
 }
 
-H3Unit::byte Unit::getSpeed()
+int Unit::getSpeed()
 {
 	return speed;
+}
+
+ID Unit::getUpgradeID()
+{
+    return upgradeID;
 }

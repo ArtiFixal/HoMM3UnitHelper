@@ -4,7 +4,7 @@
 MemoryReader* MemoryReader::hookThisPtr = NULL;
 HHOOK MemoryReader::mouseHook = NULL;
 
-MemoryReader::MemoryReader()
+MemoryReader::MemoryReader(): reader(nullptr)
 {
 	processID=NULL;
 	processHandle=NULL;
@@ -38,8 +38,17 @@ bool MemoryReader::attachToProcess()
 				processID = entry.th32ProcessID;
 				// Get path to the exe directory
 				MODULEENTRY32 processModule;
-				Module32First(snapshotHandle,&processModule);
-				exePath=processModule.szExePath;
+				processModule.dwSize=sizeof(MODULEENTRY32);
+				HANDLE processSnapshot=CreateToolhelp32Snapshot(TH32CS_SNAPMODULE,processID);
+				Module32First(processSnapshot,&processModule);
+				exeDir=processModule.szExePath;
+				if(exeDir.has_filename())
+					exeDir=exeDir.remove_filename();
+				CloseHandle(processHandle);
+				std::filesystem::path hotaDataFile=exeDir;
+				// exeDir have "\\" at the end
+				reader=std::make_unique<DataReader>(exeDir.concat("Data\\HotA_lng.lod"),
+					hotaDataFile.concat("HotA.dat"));
 				break;
 			}
 		}
@@ -57,25 +66,25 @@ string MemoryReader::readString(int stringStartAddress)
 	const size_t BUFF_SIZE=128;
 	char buff[BUFF_SIZE];
 	ReadProcessMemory(processHandle, (LPCVOID)stringStartAddress, buff, BUFF_SIZE, NULL);
-	return string(buff);
+	return string(buff,BUFF_SIZE);
 }
 
 string MemoryReader::readString(int stringStartAddress, size_t bytesToRead)
 {
 	char* buff=new char[bytesToRead];
 	ReadProcessMemory(processHandle, (LPCVOID)stringStartAddress, buff, bytesToRead, NULL);
-	return string(buff);
+	return string(buff,bytesToRead);
 }
 
-bool MemoryReader::readUnit(H3Unit::byte unitID)
+bool MemoryReader::readUnit(int unitID)
 {
-	selectedUnit = reader.readUnit(unitID);
+	selectedUnit = reader->readUnit(unitID);
 	return !selectedUnit.isNull();
 }
 
-TCHAR* MemoryReader::getExePath()
+std::filesystem::path MemoryReader::getExePath()
 {
-	return exePath;
+	return exeDir;
 }
 
 DWORD MemoryReader::getProcessID()
@@ -168,11 +177,6 @@ void MemoryReader::clearMemoryReader()
 	processID = NULL;
 	// Reset last selected unit with default constructor
 	selectedUnit = Unit();
-}
-
-bool MemoryReader::resetDataReader()
-{
-	return reader.reloadFile();
 }
 
 bool MemoryReader::pollGamePause()

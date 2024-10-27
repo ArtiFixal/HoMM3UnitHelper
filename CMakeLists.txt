@@ -1,12 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
-project(HoMM3UnitHelper VERSION 0.1 LANGUAGES CXX)
+project(HoMM3UnitHelper VERSION 0.2 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(CMAKE_CONFIGURATION_TYPES Debug Release)
-
-option(CMAKE_BUILD_TYPE "Build type" debug)
 set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build/${CMAKE_BUILD_TYPE}/)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/${CMAKE_BUILD_TYPE}/)
 
@@ -16,7 +13,7 @@ add_compile_definitions(WIN32)
 option(UNICODE "Build using wide char WinAPI" ON)
 if(UNICODE)
     add_compile_definitions(UNICODE)
-    #ImGui uses _T macro
+    # ImGui uses _T macro
     add_compile_definitions(_UNICODE)
 endif()
 
@@ -72,23 +69,42 @@ target_include_directories(ImGui
 if(MINGW)
     set(CMAKE_RC_COMPILER_INIT windres)
     ENABLE_LANGUAGE(RC)
-    #SET(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> -i Homm3UnitHelper.rc -o Homm3UnitHelper.res")
 endif()
 
 set(SOURCES
-    src/DataReader.cpp
+    DataReader/LOD/Txt/TxtReader.cpp
+    DataReader/LOD/Txt/UnitDataReader.cpp
+    DataReader/LOD/LodFile.cpp
+    DataReader/LOD/LodReader.cpp
+    DataReader/HDAT/ResourceBeginEntry.cpp
+    DataReader/HDAT/ResourceDescriptor.cpp
+    DataReader/HDAT/HdatReader.cpp
+    DataReader/RHDT/RhdatReader.cpp
+    DataReader/RHDT/RhdatWriter.cpp
+    DataReader/BinaryReader.cpp
+    DataReader/DataReader.cpp
     src/MemoryReader.cpp
     src/Unit.cpp
+    src/TmpFile.cpp
     Homm3UnitHelper.rc
 )
 
 add_executable(HoMM3UnitHelper WIN32 main.cpp ${SOURCES} resource.h)
 
-target_link_libraries(HoMM3UnitHelper ImGui d3d9 urlmon)
+target_link_libraries(HoMM3UnitHelper
+    ImGui
+    d3d9 # dx9
+    z # zlib
+)
 
 target_include_directories(HoMM3UnitHelper
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/Exceptions
+        ${CMAKE_CURRENT_SOURCE_DIR}/DataReader
+        ${CMAKE_CURRENT_SOURCE_DIR}/DataReader/LOD
+        ${CMAKE_CURRENT_SOURCE_DIR}/DataReader/LOD/Txt
+        ${CMAKE_CURRENT_SOURCE_DIR}/DataReader/HDAT
+        ${CMAKE_CURRENT_SOURCE_DIR}/DataReader/RHDT
 )
-
