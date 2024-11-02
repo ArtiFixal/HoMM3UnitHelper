@@ -23,9 +23,6 @@
 // File containing unit data doesn't exist
 #define ERROR_UNIT_DATA_FILE_NOT_FOUND DWORD(1<<29+2)
 
-// URL to file containing data about units
-#define UNIT_DATA_FILE_URL "https://github.com/ArtiFixal/HoMM3UnitHelper/raw/main/data/unitData.hdat"
-
 using namespace std;
 
 struct overlayStyle {
@@ -149,7 +146,6 @@ int main()
 	// Our variables
 	MemoryReader mr = MemoryReader();
 	bool attached=false;
-	bool dataFileExists = false;
 	bool initOverlay = false;
 	DWORD lastError = NULL;
 	overlayStyle oStyle;
@@ -246,17 +242,6 @@ int main()
 				break;
 			case ERROR_UNIT_DATA_FILE_NOT_FOUND:
 				ImGui::TextColored(errColor, "Overlay initialize failed: Data file not found.");
-					if (!dataFileExists)
-					{
-						ImGui::TextColored(errColor, "Tried to download unit data file but failed.");
-						ImGui::TextColored(errColor,"Manually download file from:");
-						ImGui::TextColored(errColor,"%s", UNIT_DATA_FILE_URL);
-						if (ImGui::Button("Open link"))
-							system(string("start ").append(UNIT_DATA_FILE_URL).c_str());
-						ImGui::TextColored(errColor, "And drop it inside this program .exe directory.");
-					}
-					else
-						ImGui::TextColored(okColor, "Successfully downloaded unit data file.");
 				break;
 			default:
 				ImGui::TextColored(errColor, "Attach failed: Error: %i", lastError);
