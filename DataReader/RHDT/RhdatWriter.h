@@ -15,14 +15,6 @@ namespace rhdat{
     class RhdatWriter
     {
     private:
-        struct WriteEntry
-        {
-            WriteEntry(EntryType type):entryType(type){}
-            WriteEntry(const WriteEntry&)=delete;
-            WriteEntry(WriteEntry&&)=default;
-            EntryType entryType;
-            std::vector<std::unique_ptr<GameObject>> objectsToSave;
-        };
 
         std::filesystem::path& pathToFile;
         std::ofstream writer;
