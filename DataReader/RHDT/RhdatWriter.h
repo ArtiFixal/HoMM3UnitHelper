@@ -5,6 +5,9 @@
 #include <memory>
 #include "Unit.h"
 #include "Rhdat.h"
+#include "WriteEntry.h"
+#include "DataPatch.h"
+#include "DataPatcher.h"
 #include "NoEntryException.h"
 
 namespace rhdat{
@@ -28,6 +31,8 @@ namespace rhdat{
          * @brief Last created entry.
          */
         WriteEntry* lastEntry;
+
+        DataPatcher dataPatcher;
 
         void writeInt(int data);
         void writeString(string str);
@@ -76,6 +81,8 @@ namespace rhdat{
          * @throw NoEntryException If entry was not found.
          */
         void addDataToSave(std::unique_ptr<GameObject>& data,EntryType entry);
+
+        void addPatch(DataPatch& patch);
 
         /**
          * @brief Writes prepared data to the file.

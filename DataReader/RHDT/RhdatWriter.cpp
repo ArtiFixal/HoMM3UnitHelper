@@ -2,7 +2,7 @@
 
 namespace rhdat{
 
-    RhdatWriter::RhdatWriter(std::filesystem::path& pathToFile): pathToFile(pathToFile),lastEntry(nullptr)
+    RhdatWriter::RhdatWriter(std::filesystem::path& pathToFile): pathToFile(pathToFile),lastEntry(nullptr),dataPatcher(entries)
     {
         writer=std::ofstream(pathToFile,std::ios_base::binary);
         writeInt(RHDAT_MAGIC_BYTES);
@@ -41,7 +41,7 @@ namespace rhdat{
         for(int i=0;i<units.size();i++)
         {
             Unit* u=static_cast<Unit*>(units.at(i).get());
-            writeInt(u->getUnitID());
+            writeInt(u->getID());
             writeString(u->getName());
             writeInt(u->getFactionID());
             writeInt(u->getLevel());
@@ -79,6 +79,11 @@ namespace rhdat{
         if(entryIndex==-1)
             throw NoEntryException(entry);
         entries.at(entryIndex).objectsToSave.push_back(std::move(data));
+    }
+
+    void RhdatWriter::addPatch(DataPatch& patch)
+    {
+        patch.patch(dataPatcher);
     }
 
     void RhdatWriter::writeData()
