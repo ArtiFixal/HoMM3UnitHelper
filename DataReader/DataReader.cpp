@@ -26,6 +26,8 @@ DataReader::DataReader(std::filesystem::path& pathToMainLodFile,std::filesystem:
 				// Ignore invalid and empty data
 			}
 		}
+		FactoryPatch factoryPatch;
+		rhdatWriter.addPatch(factoryPatch);
 		rhdatWriter.writeData();
 	}
 	reader=std::make_unique<RhdatReader>(baseGameDataFile);
@@ -40,5 +42,18 @@ Unit DataReader::readUnit(ID unitID)
 		return hotaDataReader.readUnit(unitID);
 	}catch(const ObjectNotFoundException& e){
 		return Unit();
+	}
+}
+
+Unit DataReader::readUnit(string& unitName)
+{
+	try{
+		return hotaDataReader.readUnit(unitName);
+	}catch(const ObjectNotFoundException& e){
+		try{
+			return reader->readUnit(unitName);
+		}catch(const ObjectNotFoundException& e){
+			return Unit();
+		}
 	}
 }

@@ -106,9 +106,9 @@ LRESULT CALLBACK MemoryReader::staticProcessMouseHook(int nCode, WPARAM wParam, 
 {
 	if (nCode >= 0)
 	{
-		if (wParam == WM_RBUTTONUP)
+		if (hookThisPtr != NULL)
 		{
-			if (hookThisPtr != NULL)
+			if (wParam == WM_RBUTTONUP)
 			{
 				// Process clicks only inside our game window
 				if(hookThisPtr->window==GetForegroundWindow())
@@ -121,7 +121,7 @@ LRESULT CALLBACK MemoryReader::staticProcessMouseHook(int nCode, WPARAM wParam, 
 						{
 							int monster = hookThisPtr->readMemory<int>(MONSTER_ID_ADDRESS);
 							// Prevent reading file twice for the same unit
-							if (monster != hookThisPtr->selectedUnit.getUnitID())
+							if (monster != hookThisPtr->selectedUnit.getID())
 								hookThisPtr->readUnit(monster);
 						}
 					}

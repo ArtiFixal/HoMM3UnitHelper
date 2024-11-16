@@ -1,34 +1,11 @@
 #include "Unit.h"
 
-Unit::Unit() {
-	unitID = 0;
-	level = 0;
-	unitFaction = Faction::Neutral;
-	attack = 0;
-	defense = 0;
-	minDmg = 0;
-	maxDmg = 0;
-	ammo = 0;
-	speed = 0;
-	hp = 0;
-	upgradeID = 0;
-}
+Unit::Unit():Unit(0,"",Faction::Neutral,0,0,0,0,0,0,0,0,0) {}
 
-Unit::Unit(ID unitID, std::string name, Faction faction, int level, int hp, int speed, int attack, int defense, int minDmg, int maxDmg, int ammo, ID upgradeID)
-{
-	this->unitID = unitID;
-	this->name=name;
-	this->unitFaction = faction;
-	this->level = level;
-	this->hp = hp;
-	this->speed = speed;
-	this->attack = attack;
-	this->defense = defense;
-	this->minDmg = minDmg;
-	this->maxDmg = maxDmg;
-	this->ammo = ammo;
-	this->upgradeID=upgradeID;
-}
+Unit::Unit(ID unitID, std::string name, Faction faction, int level, int hp, int speed, int attack, int defense,
+	int minDmg, int maxDmg, int ammo, ID upgradeID): GameObject(unitID),name(name),unitFaction(faction),
+	level(level),hp(hp),speed(speed),attack(attack),defense(defense),minDmg(minDmg),maxDmg(maxDmg),
+	ammo(ammo),upgradeID(upgradeID) {}
 
 bool Unit::isUpgradeable()
 {
@@ -49,11 +26,6 @@ bool Unit::isNull()
 bool Unit::isNeutral()
 {
 	return unitFaction==Faction::Neutral;
-}
-
-ID Unit::getUnitID()
-{
-	return unitID;
 }
 
 std::string Unit::getName()
@@ -97,6 +69,8 @@ std::string Unit::getFactionString(Faction whichFaction)
 		return "Conflux";
 	case Faction::Cove:
 		return "Cove";
+	case Faction::Factory:
+		return "Factory";
 	default:
 		return "ERROR";
 	}
@@ -126,6 +100,8 @@ std::string Unit::getFactionTerrain(Faction whichFaction,bool isHota)
 		return "Swamp";
 	case Faction::Conflux:
 		return (isHota)?"Highlands":"Grass";
+	case Faction::Factory:
+		return "Wasteland";
 	default:
 		return "ERROR";
 	}
@@ -193,4 +169,59 @@ int Unit::getSpeed()
 ID Unit::getUpgradeID()
 {
     return upgradeID;
+}
+
+void Unit::setName(std::string name)
+{
+	this->name=name;
+}
+
+void Unit::setFaction(Faction faction)
+{
+	unitFaction=faction;
+}
+
+void Unit::setLevel(int level)
+{
+	this->level=level;
+}
+
+void Unit::setAttack(int attack)
+{
+	this->attack=attack;
+}
+
+void Unit::setDefense(int defense)
+{
+	this->defense=defense;
+}
+
+void Unit::setMinDmg(int minDmg)
+{
+	this->minDmg=minDmg;
+}
+
+void Unit::setMaxDmg(int maxDmg)
+{
+	this->maxDmg=maxDmg;
+}
+
+void Unit::setAmmo(int ammo)
+{
+	this->ammo=ammo;
+}
+
+void Unit::setHP(int hp)
+{
+	this->hp=hp;
+}
+
+void Unit::setSpeed(int speed)
+{
+	this->speed=speed;
+}
+
+void Unit::setUpgradeID(ID upgradeID)
+{
+	this->upgradeID=upgradeID;
 }

@@ -1,11 +1,12 @@
 #pragma once
 #include <string>
 #include "GameObject.h"
+
 /**
 * @brief HoMM unit town.
 */
 enum class Faction: int{
-	Castle,Rampart,Tower,Inferno,Necropolis,Dungeon,Stronghold,Fortress,Conflux,Cove,
+	Castle,Rampart,Tower,Inferno,Necropolis,Dungeon,Stronghold,Fortress,Conflux,Cove,Factory,
 	// 0xFFFFFFFF in file
 	Neutral=-1
 };
@@ -33,7 +34,6 @@ public:
 	bool isRanged();
 	bool isNull();
 	bool isNeutral();
-	ID getUnitID();
 	std::string getName();
 
 	/**
@@ -47,7 +47,7 @@ public:
 	std::string getFactionTerrain();
 
 	/**
-	* Converts Faction enum into string containing its name.
+	* @brief Converts Faction enum into string containing its name.
 	* 
 	* @param whichFaction Faction enum to convert.
 	* @return Name of given faction.
@@ -55,7 +55,7 @@ public:
 	static std::string getFactionString(Faction whichFaction);
 
 	/**
-	* Based on faction enum returns native terrain name of that faction.
+	* @brief Based on faction enum returns native terrain name of that faction.
 	* 
 	* @param whichFaction Faction enum.
 	* @param isHota HotA mod makes some changes in the gameplay.
@@ -69,7 +69,7 @@ public:
 	int getFactionID();
 
 	/**
-	* Transforms given faction enum into its ID value.
+	* @brief Transforms given faction enum into its ID value.
 	*
 	* @param whichFaction
 	* @return Value of an enum.
@@ -78,8 +78,8 @@ public:
 	int getLevel();
 
 	/**
-	* Converts unit level into string. Where number of '+' (plus sign) represents how many
-	* times unit was upgraded.
+	* @brief Converts unit level into string. Where number of '+' (plus sign) 
+	* represents how many times unit was upgraded.
 	* 
 	* @return String representing unit level.
 	*/
@@ -94,8 +94,19 @@ public:
 	int getSpeed();
 	ID getUpgradeID();
 
+	void setName(std::string name);
+	void setFaction(Faction faction);
+	void setLevel(int level);
+	void setAttack(int attack);
+	void setDefense(int defense);
+	void setMinDmg(int minDmg);
+	void setMaxDmg(int maxDmg);
+	void setAmmo(int ammo);
+	void setHP(int hp);
+	void setSpeed(int speed);
+	void setUpgradeID(ID upgradeID);
+
 private:
-	ID unitID;
 
 	/**
 	* Specifies level of an unit, where:

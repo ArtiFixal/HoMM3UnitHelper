@@ -2,11 +2,12 @@
 #include <fstream>
 #include <memory>
 #include "Unit.h"
-#include "LOD/LodReader.h"
-#include "LOD/Txt/UnitDataReader.h"
+#include "LodReader.h"
+#include "UnitDataReader.h"
 #include "HdatReader.h"
-#include "RHDT/RhdatWriter.h"
-#include "RHDT/RhdatReader.h"
+#include "RhdatWriter.h"
+#include "RhdatReader.h"
+#include "FactoryPatch.h"
 
 using namespace rhdat;
 using namespace hdat;
@@ -39,9 +40,17 @@ public:
 	~DataReader(){};
 
 	/**
-	* Reads external file in search for given unit data.
+	* @brief Reads external file in search for given unit data.
 	* 
 	* @param unitID Which unit data we want to read.
 	*/
 	Unit readUnit(ID unitID);
+
+	/**
+	 * @brief Reads external file in search for given unit data.
+	 * 
+	 * @param unitName Which unit data we want to read.
+	 * @return Unit with given name.
+	 */
+	Unit readUnit(string& unitName);
 };
