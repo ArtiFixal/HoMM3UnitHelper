@@ -44,13 +44,6 @@ namespace hdat{
         Unit _assignUnitData(ID unitID,string name);
 
         /**
-         * @brief Moves reader current position in file by given value.
-         * 
-         * @param toSkip How much to move.
-         */
-        void skipPosBy(std::streampos toSkip);
-
-        /**
          * @brief Sets reader position to the begining of the resource block.
          */
         void goToResourceBegin(ResourceBeginEntry& resourceToGoTo);

@@ -11,6 +11,16 @@ protected:
     std::filesystem::path& pathToFile;
     std::ifstream reader;
 
+	/**
+	 * @brief Moves current read position by given value.
+     * 
+	 * @param toMove How many bytes to move. Positive value will 
+     * move forward, negative backward.
+	 */
+	inline void movePosBy(int toMove){
+        reader.seekg(reader.tellg()+toMove);
+    }
+
 public:
     BinaryReader(std::filesystem::path& pathToFile);
     ~BinaryReader();

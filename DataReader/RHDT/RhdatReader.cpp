@@ -13,6 +13,8 @@ namespace rhdat{
     inline Unit RhdatReader::_readUnit(ID id)
     {
         string name=readString();
+        int pluralNameSizeToSkip=readInt();
+        movePosBy(pluralNameSizeToSkip);
         Faction faction=static_cast<Faction>(readInt());
         int level=readInt();
         int hp=readInt();
@@ -36,7 +38,7 @@ namespace rhdat{
             // Skip string + 10 int fields
             int stringLength=readInt();
             unsigned int toSkip=stringLength+10*sizeof(int);
-            reader.seekg(reader.tellg()+toSkip);
+            movePosBy(toSkip);
             id=readInt();
             maxRetries--;
         }
@@ -55,7 +57,7 @@ namespace rhdat{
         {
             // Skip 9 int fields
             unsigned int toSkip=9*sizeof(int);
-            reader.seekg(reader.tellg()+toSkip);
+            movePosBy(toSkip);
             id=readInt();
             name=readString();
             maxRetries--;

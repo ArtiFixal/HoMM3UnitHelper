@@ -1,6 +1,6 @@
 #include "BinaryReader.h"
 
-BinaryReader::BinaryReader(std::filesystem::path& pathToFile): pathToFile(pathToFile)
+BinaryReader::BinaryReader(std::filesystem::path &pathToFile) : pathToFile(pathToFile)
 {
     reader=std::ifstream(pathToFile,std::ios_base::binary);
 }

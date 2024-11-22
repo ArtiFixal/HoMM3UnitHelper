@@ -36,33 +36,33 @@ namespace hdat{
     {
         // pathLength + 2 ints
         int pathToSkip=readInt()+8;
-        skipPosBy(pathToSkip);
+        movePosBy(pathToSkip);
         int keyToSkip=readInt();
-        skipPosBy(keyToSkip);
+        movePosBy(keyToSkip);
         int defToSkip=readInt();
-        skipPosBy(defToSkip);
+        movePosBy(defToSkip);
         int nameToSkip=readInt();
-        skipPosBy(nameToSkip);
+        movePosBy(nameToSkip);
         // Skip plural name + 39 unit data ints + 1 byte
         int toSkip=readInt()+39*4+1;
-        skipPosBy(toSkip);
+        movePosBy(toSkip);
     }
 
     void inline HdatReader::_skipUnitDataByName()
     {
         int pathToSkip=readInt()+8;
-        skipPosBy(pathToSkip);
+        movePosBy(pathToSkip);
         int keyToSkip=readInt();
-        skipPosBy(keyToSkip);
+        movePosBy(keyToSkip);
         int defToSkip=readInt();
-        skipPosBy(defToSkip);
+        movePosBy(defToSkip);
     }
 
     Unit HdatReader::_assignUnitData(ID unitID, string name)
     {
         Faction faction=static_cast<Faction>(readInt());
         int level=readInt()+1;
-        skipPosBy(17*4);
+        movePosBy(17*4);
         int hp=readInt();
         int speed=readInt();
         int attack=readInt();
@@ -70,14 +70,9 @@ namespace hdat{
         int minDmg=readInt();
         int maxDmg=readInt();
         int ammo=readInt();
-        skipPosBy(7*4);
+        movePosBy(7*4);
         int upgradeID=readInt();
         return Unit(unitID,name,faction,level,hp,speed,attack,def,minDmg,maxDmg,ammo,upgradeID);
-    }
-
-    inline void HdatReader::skipPosBy(std::streampos toSkip)
-    {
-        reader.seekg(reader.tellg()+toSkip);
     }
 
     inline void HdatReader::goToResourceBegin(ResourceBeginEntry& resourceToGoTo)
@@ -134,7 +129,7 @@ namespace hdat{
         string name=readString();
         // Plural + unknown data
         int toSkip=readInt()+4*5+1;
-        skipPosBy(toSkip);
+        movePosBy(toSkip);
         return _assignUnitData(unitID,name);
     }
 
@@ -149,11 +144,11 @@ namespace hdat{
             _skipUnitDataByName();
             name=readString();
             int toSkip=readInt()+39*4+1;
-            skipPosBy(toSkip);
+            movePosBy(toSkip);
             currObjectNumber++;
         }while(currObjectNumber<=maxRetries&&name!=unitName);
         if(name!=unitName)
-            throw ObjectNotFoundException("Unit",name);
+            throw ObjectNotFoundException("Unit",unitName);
         return _assignUnitData(currentDesc.getResourceID(),name);
     }
 }
