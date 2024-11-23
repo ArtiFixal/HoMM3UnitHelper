@@ -1,7 +1,7 @@
 #pragma once
 #include <fstream>
 #include <memory>
-#include "Unit.h"
+#include "UnitExtended.h"
 #include "LodReader.h"
 #include "UnitDataReader.h"
 #include "HdatReader.h"
@@ -13,7 +13,7 @@ using namespace rhdat;
 using namespace hdat;
 
 /**
-* Reads game data.
+* @brief Reads game data.
 */
 class DataReader
 {

@@ -35,9 +35,11 @@ namespace rhdat{
         ID id=readInt();
         while(id!=unitID&&maxRetries)
         {
-            // Skip string + 10 int fields
+            // Skip unit name
             int stringLength=readInt();
-            unsigned int toSkip=stringLength+10*sizeof(int);
+            movePosBy(stringLength);
+            // Skip plural name + 10 int fields
+            unsigned int toSkip=readInt()+10*sizeof(int);
             movePosBy(toSkip);
             id=readInt();
             maxRetries--;
@@ -53,7 +55,8 @@ namespace rhdat{
         int maxRetries=unitDataPtr.entryCount;
         ID id=readInt();
         string name=readString();
-        while(name!=unitName&&maxRetries&&!reader.eof())
+        string pluralName=readString();
+        while(name!=unitName&&pluralName!=unitName&&maxRetries&&!reader.eof())
         {
             // Skip 9 int fields
             unsigned int toSkip=9*sizeof(int);
@@ -62,9 +65,9 @@ namespace rhdat{
             name=readString();
             maxRetries--;
         }
-        if(name!=unitName)
+        if(name!=unitName&&pluralName!=unitName)
             throw ObjectNotFoundException("Unit",unitName);
-        reader.seekg(reader.tellg()-name.length());
+        reader.seekg(reader.tellg()-unitName.length());
         return id;
     }
 

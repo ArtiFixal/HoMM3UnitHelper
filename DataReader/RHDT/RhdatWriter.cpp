@@ -40,9 +40,10 @@ namespace rhdat{
     {
         for(int i=0;i<units.size();i++)
         {
-            Unit* u=static_cast<Unit*>(units.at(i).get());
+            UnitExtended* u=static_cast<UnitExtended*>(units.at(i).get());
             writeInt(u->getID());
             writeString(u->getName());
+            writeString(u->getPluralName());
             writeInt(u->getFactionID());
             writeInt(u->getLevel());
             writeInt(u->getHP());

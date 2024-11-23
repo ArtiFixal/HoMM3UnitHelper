@@ -5,7 +5,7 @@
 #include <vector>
 #include "LodFile.h"
 #include "GameDataReader.h"
-#include "Unit.h"
+#include "UnitExtended.h"
 
 namespace h3lod{
 

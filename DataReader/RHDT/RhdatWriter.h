@@ -3,7 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <memory>
-#include "Unit.h"
+#include "UnitExtended.h"
 #include "Rhdat.h"
 #include "WriteEntry.h"
 #include "DataPatch.h"
@@ -82,6 +82,11 @@ namespace rhdat{
          */
         void addDataToSave(std::unique_ptr<GameObject>& data,EntryType entry);
 
+        /**
+         * @brief Applies patch to the data.
+         * 
+         * @param patch Patch to apply.
+         */
         void addPatch(DataPatch& patch);
 
         /**
@@ -89,5 +94,4 @@ namespace rhdat{
          */
         void writeData();
     };
-
 }

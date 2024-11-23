@@ -89,5 +89,5 @@ namespace h3lod{
         return stringsRead;
     }
 
-    template class TxtReader<Unit>;
+    template class TxtReader<UnitExtended>;
 }

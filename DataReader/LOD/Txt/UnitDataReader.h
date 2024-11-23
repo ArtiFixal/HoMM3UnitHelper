@@ -1,7 +1,7 @@
 #pragma once
 #include "h3lod_defs.h"
 #include "TxtReader.h"
-#include "Unit.h"
+#include "UnitExtended.h"
 
 #define UNIT_FIGHT_VALUE_POS 9
 #define UNIT_STATS_POS 13
@@ -11,7 +11,7 @@ namespace h3lod{
     /**
      * @brief Reads @code Unit data from TXT files inside .LOD archive.
      */
-    class UnitDataReader: public TxtReader<Unit>
+    class UnitDataReader: public TxtReader<UnitExtended>
     {
         private:
 
@@ -43,7 +43,7 @@ namespace h3lod{
              * 
              * @throws std::invalid_argument If failed to parse line of data.
              */
-            std::unique_ptr<Unit> assignUnitData(std::vector<string>& strings);
+            std::unique_ptr<UnitExtended> assignUnitData(std::vector<string>& strings);
 
             void _setConfluxData(uint& unitID,uint& upgradeID,Faction& faction,int& levelRef,int levelVal) noexcept;
             void _setElementalData(uint& unitID,Faction& faction,uint& upgradeID ,uint movedBy,int& levelRef,int levelVal) noexcept;
@@ -53,8 +53,8 @@ namespace h3lod{
             UnitDataReader(LodFile& fileToRead);
             ~UnitDataReader(){};
             
-            std::unique_ptr<Unit> readData() override;
-            std::unique_ptr<Unit> readData(uint unitID) override;
-            std::unique_ptr<Unit> readData(string unitName) override;
+            std::unique_ptr<UnitExtended> readData() override;
+            std::unique_ptr<UnitExtended> readData(uint unitID) override;
+            std::unique_ptr<UnitExtended> readData(string unitName) override;
     };
 }

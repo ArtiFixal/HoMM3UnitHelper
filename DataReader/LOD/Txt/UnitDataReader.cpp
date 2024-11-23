@@ -2,7 +2,7 @@
 
 namespace h3lod{
 
-    UnitDataReader::UnitDataReader(LodFile& fileToRead): TxtReader<Unit>(fileToRead){}
+    UnitDataReader::UnitDataReader(LodFile& fileToRead): TxtReader<UnitExtended>(fileToRead){}
 
     inline uint UnitDataReader::_calcUnitUpgradeID(uint unitID) noexcept
     {
@@ -20,7 +20,7 @@ namespace h3lod{
         return level;
     }
 
-    std::unique_ptr<Unit> UnitDataReader::assignUnitData(std::vector<std::string>& strings)
+    std::unique_ptr<UnitExtended> UnitDataReader::assignUnitData(std::vector<std::string>& strings)
     {
         if(reader.eof()||strings.empty())
             throw std::invalid_argument("Unable to parse Unit data");
@@ -106,7 +106,7 @@ namespace h3lod{
         int minDmg=stoi(strings.at(UNIT_STATS_POS+4));
         int maxDmg=stoi(strings.at(UNIT_STATS_POS+5));
         int ammo=stoi(strings.at(UNIT_STATS_POS+6));
-        return std::make_unique<Unit>(unitID,strings.at(0),faction,level,hp,speed,attack,defense,minDmg,maxDmg,ammo,upgradeID);
+        return std::make_unique<UnitExtended>(unitID,strings.at(0),strings.at(1),faction,level,hp,speed,attack,defense,minDmg,maxDmg,ammo,upgradeID);
     }
 
     inline void UnitDataReader::_setElementalData(uint& unitID,Faction& faction,uint& upgradeID ,uint movedBy,int& levelRef,int levelVal) noexcept
@@ -156,20 +156,20 @@ namespace h3lod{
         }
     }
 
-    std::unique_ptr<Unit> UnitDataReader::readData()
+    std::unique_ptr<UnitExtended> UnitDataReader::readData()
     {
         std::vector<string> strings=readStrings();
         return assignUnitData(strings);
     }
 
-    std::unique_ptr<Unit> UnitDataReader::readData(uint unitID)
+    std::unique_ptr<UnitExtended> UnitDataReader::readData(uint unitID)
     {
         goToLine(unitID);
         std::vector<string> strings=readStrings();
         return assignUnitData(strings);
     }
 
-    std::unique_ptr<Unit> UnitDataReader::readData(string unitName)
+    std::unique_ptr<UnitExtended> UnitDataReader::readData(string unitName)
     {
         std::vector<string> strings;
         reader.seekg(fileBegin);
@@ -182,7 +182,8 @@ namespace h3lod{
             reader>>name;
             reader>>pluralName;
         }
-        strings=readStrings('\t');
+        strings=readStrings();
+        strings.insert(strings.begin(),pluralName);
         strings.insert(strings.begin(),name);
         return assignUnitData(strings);
     }

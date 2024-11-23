@@ -7,7 +7,7 @@
 #include "LodEntry.h"
 #include "LodFile.h"
 #include "TmpFile.h"
-#include "Unit.h"
+#include "UnitExtended.h"
 #include "GameDataReader.h"
 #include "UnitDataReader.h"
 #include "FileNotFoundException.h"
@@ -90,7 +90,7 @@ namespace h3lod{
     };
 
     template <>
-    inline std::unique_ptr<GameDataReader<Unit>> LodReader::getFileReader(string entryName){
+    inline std::unique_ptr<GameDataReader<UnitExtended>> LodReader::getFileReader(string entryName){
         LodFile found=getFile(entryName);
         return std::make_unique<UnitDataReader>(found);
     }

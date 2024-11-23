@@ -138,16 +138,18 @@ namespace hdat{
         goToResourceBegin(unitsBegin);
         ResourceDescriptor currentDesc;
         string name;
+        string pluralName;
         int maxRetries=unitsBegin.getResourceCount();
         do{
             currentDesc=readResourceDescriptor();
             _skipUnitDataByName();
             name=readString();
-            int toSkip=readInt()+39*4+1;
+            pluralName=readString();
+            int toSkip=39*4+1;
             movePosBy(toSkip);
             currObjectNumber++;
-        }while(currObjectNumber<=maxRetries&&name!=unitName);
-        if(name!=unitName)
+        }while(currObjectNumber<=maxRetries&&name!=unitName&&pluralName!=unitName);
+        if(name!=unitName&&name!=pluralName)
             throw ObjectNotFoundException("Unit",unitName);
         return _assignUnitData(currentDesc.getResourceID(),name);
     }

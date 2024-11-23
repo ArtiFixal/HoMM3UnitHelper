@@ -9,7 +9,7 @@ DataReader::DataReader(std::filesystem::path& pathToMainLodFile,std::filesystem:
 	using namespace h3lod;
 	LodReader baseDataReader(pathToMainLodFile);
 	// Since we are extracting LOD files anyway lets organize them in more friendly shape.
-	std::unique_ptr<GameDataReader<Unit>> unitReader=baseDataReader.getFileReader<Unit>(H3_BASE_UNIT_FILE);
+	std::unique_ptr<GameDataReader<UnitExtended>> unitReader=baseDataReader.getFileReader<UnitExtended>(H3_BASE_UNIT_FILE);
 	std::filesystem::path baseGameDataFile=std::filesystem::current_path().concat("\\"+FILE_WITH_DATA);
 	if(!std::filesystem::exists(baseGameDataFile))
 	{
