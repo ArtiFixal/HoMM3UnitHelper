@@ -81,9 +81,13 @@ set(SOURCES
     DataReader/HDAT/HdatReader.cpp
     DataReader/RHDT/RhdatReader.cpp
     DataReader/RHDT/RhdatWriter.cpp
+    DataReader/RHDT/DataPatcher/DataPatcher.cpp
+    DataReader/RHDT/DataPatcher/patches/FactoryPatch.cpp
+    DataReader/ExtendedGameData/UnitExtended.cpp
     DataReader/BinaryReader.cpp
     DataReader/DataReader.cpp
     src/MemoryReader.cpp
+    src/GameObject.cpp
     src/Unit.cpp
     src/TmpFile.cpp
     Homm3UnitHelper.rc
@@ -107,4 +111,7 @@ target_include_directories(HoMM3UnitHelper
         ${CMAKE_CURRENT_SOURCE_DIR}/DataReader/LOD/Txt
         ${CMAKE_CURRENT_SOURCE_DIR}/DataReader/HDAT
         ${CMAKE_CURRENT_SOURCE_DIR}/DataReader/RHDT
+        ${CMAKE_CURRENT_SOURCE_DIR}/DataReader/ExtendedGameData
+        ${CMAKE_CURRENT_SOURCE_DIR}/DataReader/RHDT/DataPatcher
+        ${CMAKE_CURRENT_SOURCE_DIR}/DataReader/RHDT/DataPatcher/patches
 )
